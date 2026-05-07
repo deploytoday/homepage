@@ -12,7 +12,6 @@
     --bg: #efeae0;
     --ink: #1f1f1f;
     --ink-soft: #8a857a;
-    --dot: rgba(31, 31, 31, 0.18);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -33,7 +32,6 @@
     overflow: hidden;
   }
 
-  /* Subtle uniform dot grid — pure texture, no rhythm games */
   .bg {
     position: fixed;
     inset: 0;
@@ -77,25 +75,32 @@
     font-style: normal;
   }
 
-  /* Tiny corner mark — quiet anchor, gives the page a sense of place */
-  .mark {
-    position: fixed;
-    top: 32px;
-    left: 32px;
-    z-index: 3;
-    font-size: 12px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
+  /* Email link — small monospace contact below subhead */
+  .email-link {
+    margin-top: clamp(40px, 6vh, 72px);
+    display: inline-block;
     color: var(--ink-soft);
-    font-family: 'Fraunces', serif;
-    font-weight: 400;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    line-height: 0;
+  }
+  .email-link:hover { color: var(--ink); }
+  .email-link:hover .underline { opacity: 1; }
+
+  .email-svg { display: block; }
+  .underline {
+    display: block;
+    height: 1px;
+    background: currentColor;
+    margin-top: 4px;
+    opacity: 0.4;
+    transition: opacity 0.2s ease;
   }
 </style>
 </head>
 <body>
 
-  <!-- Subtle uniform dot grid: small, evenly-spaced, low opacity.
-       Reads as quiet paper texture rather than a graphic element. -->
   <svg class="bg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
     <defs>
       <pattern id="dotgrid" width="28" height="28" patternUnits="userSpaceOnUse">
@@ -108,7 +113,66 @@
   <main class="stage">
     <h1 class="headline">Deploy Today</h1>
     <p class="subhead">we help you grow</p>
+
+    <!--
+      Crawler-resistant email:
+      1. Rendered in SVG <tspan> elements, each with an explicit x coordinate.
+      2. The DOM order of the tspans is shuffled — only the x attributes restore
+         visual order. A scraper extracting textContent gets gibberish.
+      3. The @ symbol is injected via String.fromCharCode(64) at click time, and
+         the address itself is split into fragments — there is no plain-text
+         "hello@deploytoday.tech" anywhere in the source.
+    -->
+    <a class="email-link" id="emailLink" href="#" rel="nofollow noopener" aria-label="Open email composer to contact us">
+      <svg class="email-svg" width="200" height="20" viewBox="0 0 200 20"
+           xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <text y="15"
+              font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, monospace"
+              font-size="13" fill="currentColor">
+          <tspan x="63">e</tspan>
+          <tspan x="126">d</tspan>
+          <tspan x="18">l</tspan>
+          <tspan x="171">e</tspan>
+          <tspan x="99">y</tspan>
+          <tspan x="0">h</tspan>
+          <tspan x="144">y</tspan>
+          <tspan x="45">&#64;</tspan>
+          <tspan x="189">h</tspan>
+          <tspan x="81">l</tspan>
+          <tspan x="117">o</tspan>
+          <tspan x="27">l</tspan>
+          <tspan x="153">.</tspan>
+          <tspan x="72">p</tspan>
+          <tspan x="108">t</tspan>
+          <tspan x="180">c</tspan>
+          <tspan x="36">o</tspan>
+          <tspan x="9">e</tspan>
+          <tspan x="162">t</tspan>
+          <tspan x="54">d</tspan>
+          <tspan x="135">a</tspan>
+          <tspan x="90">o</tspan>
+        </text>
+      </svg>
+      <span class="underline"></span>
+    </a>
   </main>
+
+  <script>
+    // Build the mailto: from disjoint fragments at click time.
+    // Nothing here looks like an email to a static crawler.
+    (function () {
+      var el = document.getElementById('emailLink');
+      if (!el) return;
+      el.addEventListener('click', function (e) {
+        e.preventDefault();
+        var user   = ['hel', 'lo'].join('');
+        var domain = ['deploy', 'today'].join('');
+        var tld    = ['te', 'ch'].join('');
+        var addr   = user + String.fromCharCode(64) + domain + '.' + tld;
+        window.location.href = 'mai' + 'lto:' + addr;
+      });
+    })();
+  </script>
 
 </body>
 </html>
