@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Deploy Today — we help you grow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #efeae0;
+    --ink: #1f1f1f;
+    --ink-soft: #8a857a;
+    --dot: rgba(31, 31, 31, 0.18);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Fraunces', Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* Subtle uniform dot grid — pure texture, no rhythm games */
+  .bg {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .stage {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 8vw;
+  }
+
+  .headline {
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(56px, 9vw, 132px);
+    line-height: 1;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+    user-select: none;
+    font-variation-settings: "opsz" 144;
+  }
+
+  .subhead {
+    margin-top: clamp(24px, 3.5vh, 40px);
+    font-family: 'Fraunces', serif;
+    font-size: clamp(13px, 1.05vw, 15px);
+    letter-spacing: 0.02em;
+    color: var(--ink-soft);
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  /* Tiny corner mark — quiet anchor, gives the page a sense of place */
+  .mark {
+    position: fixed;
+    top: 32px;
+    left: 32px;
+    z-index: 3;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+  }
+</style>
+</head>
+<body>
+
+  <!-- Subtle uniform dot grid: small, evenly-spaced, low opacity.
+       Reads as quiet paper texture rather than a graphic element. -->
+  <svg class="bg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <pattern id="dotgrid" width="28" height="28" patternUnits="userSpaceOnUse">
+        <circle cx="14" cy="14" r="1" fill="rgba(31, 31, 31, 0.18)"/>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#dotgrid)"/>
+  </svg>
+
+  <main class="stage">
+    <h1 class="headline">Deploy Today</h1>
+    <p class="subhead">we help you grow</p>
+  </main>
+
+</body>
+</html>
